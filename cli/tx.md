@@ -85,28 +85,22 @@ Usage: jdchain-cli tx user-register [-hV] [--ca-mode] [--pretty]
                                     [--gw-host=<gwHost>] [--gw-port=<gwPort>]
                                     [--home=<path>] [-n=<name>]
                                     [--pubkey=<pubkey>]
-      --ca-mode            Register with CA
       --crt=<caPath>       File of the X509 certificate
       --export=<export>    Transaction export directory
       --gw-host=<gwHost>   Set the gateway host. Default: 127.0.0.1
       --gw-port=<gwPort>   Set the gateway port. Default: 8080
   -h, --help               Show this help message and exit.
       --home=<path>        Set the home directory.
-  -n, --name=<name>        Name of the key
       --pretty             Pretty json print
       --pubkey=<pubkey>    Pubkey of the user
   -V, --version            Print version information and exit.
 ```
-- `ca-mode`，身份认证模式是否为证书（`CA`）模式，默认`false`
-- `name`，当`ca-mode`为`true`时会读取本地`${home}/keys/${name}.crt`文件，反之读取`${home}/config/keys/${name}.pub`
-- `crt`，证书文件路径
-- `pubkey`，`Base58`编码公钥信息，仅在非`ca-mode`情况下使用
-
-从`${home}/keys`目录下密钥对选择密钥注册到网关服务对应的区块链网络。
+- `crt`，证书文件路径，证书身份模式下必填
+- `pubkey`，`Base58`编码公钥信息
 
 如：
 ```bash
-:bin$ ./jdchain-cli.sh tx user-register -name k1
+:bin$ ./jdchain-cli.sh tx user-register --pubkey 7VeREEMD5aztb17PJwm6sVHJ7W6sZoEV5MsZ7AVJ4MTuLRsA
 select ledger, input the index:
 INDEX  LEDGER
 0      j5sB3sVTFgTqTYzo7KtQjBLSy8YQGPpJpvQZaW9Eqk46dg

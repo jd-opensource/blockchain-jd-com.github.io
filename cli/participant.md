@@ -1,4 +1,4 @@
-借助`BFT-SMaRt`共识提供的Reconfig操作元语，`JD Chain`实现了在不停机的情况下快速更新共识网络拓扑，
+借助`BFT-SMaRt`共识提供的`Reconfig`操作元语，`JD Chain`实现了在不停机的情况下快速更新共识网络拓扑，
 实现添加共识节点，移除共识节点，更新共识信息 等功能。
 
 ```bash
@@ -165,6 +165,7 @@ binding.<账本hash>.db.uri=<账本数据库连接>
 ```
 
 3. 激活新节点
+
 ```bash
 :bin$ ./jdchain-cli.sh participant active -h
 Active participant.
@@ -281,9 +282,7 @@ Usage: jdchain-cli participant update [-hV] [--consensus-secure] [--pretty]
 - `port`，节点端口
 - `consensus-host`，新节点共识`IP`
 - `consensus-port`，新节点共识端口
-- `syn-host`，数据同步节点地址
-- `syn-port`，数据同步节点服务端口
-- `shutdown`，是否停止共识服务
+- `shutdown`，是否停止原共识地址的共识服务
 
 可以动态修改已经处于激活状态的共识节点的`IP`和`共识端口`信息，从而实现本机的共识端口变更，不同机器之间进行`账本迁移`。
 
@@ -296,7 +295,7 @@ Usage: jdchain-cli participant update [-hV] [--consensus-secure] [--pretty]
 如将`node4`共识端口由`10088`修改为`10188`，操作指令如下：
 
 ```bash
-:bin$./jdchain-cli.sh participant update --ledger j5sB3sVTFgTqTYzo7KtQjBLSy8YQGPpJpvQZaW9Eqk46dg --host 127.0.0.1 --port 7084 --consensus-host 127.0.0.1 --consensus-port 10188 --syn-host 127.0.0.1 --syn-port 7080
+:bin$./jdchain-cli.sh participant update --ledger j5sB3sVTFgTqTYzo7KtQjBLSy8YQGPpJpvQZaW9Eqk46dg --host 127.0.0.1 --port 7084 --consensus-host 127.0.0.1 --consensus-port 10188
 participant updated
 ```
 指令成功执行后，`peer1`的共识端口将自动变更为`10188`
@@ -310,7 +309,7 @@ participant updated
 如将`node4`共识`IP`由`127.0.0.1`修改为`192.168.1.100`（另一台机器），操作指令如下：
 
 ```bash
-:bin$./jdchain-cli.sh participant update --ledger j5sB3sVTFgTqTYzo7KtQjBLSy8YQGPpJpvQZaW9Eqk46dg --host 127.0.0.1 --port 7084 --consensus-host 192.168.1.100 --consensus-port 10188 --syn-host 127.0.0.1 --syn-port 7080 -shutdown
+:bin$./jdchain-cli.sh participant update --ledger j5sB3sVTFgTqTYzo7KtQjBLSy8YQGPpJpvQZaW9Eqk46dg --host 127.0.0.1 --port 7084 --consensus-host 192.168.1.100 --consensus-port 10188 -shutdown
 participant updated
 ```
 
