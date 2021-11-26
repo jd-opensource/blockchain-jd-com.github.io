@@ -2,7 +2,7 @@
 
 ## 压缩包下载
 
-访问[资源下载](https://ledger.jd.com/downloadapps.html)选择并下载指定版本的`jdchain-peer*.zip`、`jdchain-gateway*.zip`安装包。
+访问[资源下载](download)选择并下载指定版本的`jdchain-peer*.zip`、`jdchain-gateway*.zip`安装包。
 
 或者下载[源码](https://github.com/blockchain-jd-com/jdchain)，参照首页说明编译打包指定版本，打包输出目录为`deploy`各子模块`target`。
 
@@ -96,7 +96,7 @@ more details, see /home/nodes
 ```bash
 ledger-init.sh
 ```
-按照提示操作，节点间再初始化过程中会尝试相互连接，指令执行有先后，所有可忽略初始化过程中的连接错误日志。成功执行后会在`peer*/config`目录下生成`ledger-binding.conf`文件，表示账本初始化完成。
+按照提示操作（等待所有初始化脚本启动之后，有一个按任意键继续的提示，所有节点都需要点击一下确认键），节点间在初始化过程中会尝试相互连接，指令执行有先后，所有可忽略初始化过程中的连接错误日志。成功执行后会在`peer*/config`目录下生成`ledger-binding.conf`文件，表示账本初始化完成。
 
 若初始化不能成功，请查阅实时控制台输出，以及`peer*/logs/init.log`文件查找原因。
 
@@ -473,4 +473,4 @@ keys.default.privkey-password=
 
 点击 [操作视频](https://storage.jd.com/jd.block.chain/init-jdchain-by-manager-tool.mp4) 查看。
 
-> 此方式出现最多的是端口冲突问题，操作过程中出现问题请查看`peer/logs/jump.log`查找原因
+> 此方式出现最多的是端口冲突问题，操作过程中出现问题请查看`peer/bin/jump.out`查找原因
