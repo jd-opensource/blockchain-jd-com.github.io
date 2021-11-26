@@ -56,7 +56,7 @@ identity-mode=CA
 ```properties
 root-ca-path=/**/ledger1.crt,/**/ledger2.crt
 ```
-`root-ca-path`根证书列表，使用`ROOT`或者`CA`类型证书，多个根证书使用半角逗号分割。初始化完成后，证书信息会上链存储，通过[2.7 获取账本初始化配置信息](api.md#27-获取账本初始化配置信息)可查。
+`root-ca-path`根证书列表，使用`ROOT`或者`CA`类型证书，多个根证书使用半角逗号分割。初始化完成后，证书信息会上链存储，通过[获取账本初始化配置信息](api/gw.md#获取账本初始化配置信息)可查。
 
 3. `cons_parti.*.ca-path`
 
