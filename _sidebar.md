@@ -1,6 +1,7 @@
 <!-- docs/_sidebar.md -->
 
 - [源码](/code.md)
+- [安装包](/download.md)
 
 - 快速上手
 
