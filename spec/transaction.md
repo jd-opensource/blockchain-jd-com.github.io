@@ -471,4 +471,4 @@ for(Operation operation : tx.getRequest().getTransactionContent().getOperations(
 }
 ```
 
-上诉仅以注册用户/注册数据账户为例，其他操作类型嗯参照[所有操作类型](#2-操作)进行解析。
+上诉仅以注册用户/注册数据账户为例，其他操作类型嗯参照[所有操作类型](#操作)进行解析。
