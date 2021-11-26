@@ -20,7 +20,21 @@
         repo: 'https://github.com/blockchain-jd-com/jdchain',
         alias: {
             '/.*/_sidebar.md': '/_sidebar.md'
-        }
+        },
+        plugins: [
+            function(hook) {
+                var footer = [
+                    '<hr/>',
+                    '<footer>',
+                    '<span>jdchain-support@jd.com</a></span>',
+                    '</footer>'
+                ].join('');
+
+                hook.afterEach(function(html) {
+                    return html + footer;
+                });
+            }
+        ]
     }
 </script>
 <!-- Docsify v4 -->
