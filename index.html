@@ -10,6 +10,7 @@
 </head>
 <body>
 <div id="app">加载中</div>
+<script src="//cdn.jsdelivr.net/npm/docsify-edit-on-github"></script>
 <script>
     window.$docsify = {
         name: 'JD Chain',
@@ -22,7 +23,7 @@
             '/.*/_sidebar.md': '/_sidebar.md'
         },
         plugins: [
-            function(hook) {
+            function (hook) {
                 var footer = [
                     '<hr/>',
                     '<footer>',
@@ -30,10 +31,17 @@
                     '</footer>'
                 ].join('');
 
-                hook.afterEach(function(html) {
+                hook.afterEach(function (html) {
                     return html + footer;
                 });
-            }
+            },
+            EditOnGithubPlugin.create(
+                'https://github.com/blockchain-jd-com/blockchain-jd-com.github.io/blob/master/',
+                null,
+                function (file) {
+                    return '编辑'
+                }
+            )
         ]
     }
 </script>
