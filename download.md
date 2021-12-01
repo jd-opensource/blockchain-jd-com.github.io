@@ -6,3 +6,8 @@
 | [jdchain-gateway-1.6.1.RELEASE](https://storage.jd.com/jd.block.chain/jdchain-gateway-1.6.1.RELEASE.zip)  | 00462272f3be7bee2306d07460b536be15d177885d96a3cbb358a0a0d4e991c2 | 2021/11/26  | 63.1M  |
 
 历史版本请编译源码获取
+
+关于版本升级，理论上1.5.0到1.6.1都可以通过直接移除`peer`中`libs`、`manager`、`system`，`gateway`中`lib`旧依赖，换成新版本依赖，重启所有节点即可。
+版本升级时注意下`log4j2`配置、启动脚本等的变化。
+升级后不同版本若存在合约调用失败，请使用最新版本依赖重新打包更新合约。
+数据无价，升级前做好备份，操作请谨慎！
