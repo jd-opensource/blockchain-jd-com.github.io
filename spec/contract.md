@@ -241,7 +241,7 @@ LedgerQueryService getUncommittedLedger();
 LedgerContext getLedger();
 ```
 
-合约方法中对账本的操作通过调用`LedgerContext`中相关方法，可参照[示例合约](https://github.com/blockchain-jd-com/jdchain/tree/master/samples/contract-samples/src/main/java/com/jdchain/samples/contract)
+合约方法中对账本的操作通过调用`LedgerContext`中相关方法，可参照[示例合约](https://github.com/blockchain-jd-com/jdchain-samples/tree/master/contract-samples/src/main/java/com/jdchain/samples/contract)
 
 ### 编译打包合约代码
 
