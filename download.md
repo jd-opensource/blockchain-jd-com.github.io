@@ -12,4 +12,4 @@
 升级后不同版本若存在合约调用失败，请使用最新版本依赖重新打包更新合约。
 数据无价，升级前做好备份，操作请谨慎！
 
-**关于[`log4j2`漏洞](https://github.com/apache/logging-log4j2/pull/608)**，针对`1.5.0`、`1.6.0`、`1.6.1`版本提供修复安装包，对应release版本已更新。安装包链接（临时存放）：http://box.jd.com/sharedInfo/EF9D780CA518CD1AEEC946AFBC5707A7  访问密码: vqzn4r
+**关于[`log4j2`漏洞](https://github.com/apache/logging-log4j2/pull/608)**，针对`1.5.0`、`1.6.0`、`1.6.1`版本提供修复安装包，对应release版本已更新。安装包链接（临时存放）：http://box.jd.com/sharedInfo/EF9D780CA518CD1AEEC946AFBC5707A7  访问密码: vqzn4r 。升级请做好数据备份、测试。
