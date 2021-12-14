@@ -2,8 +2,8 @@
 
 |  文件   | 校验（SHA-256）  | 更新时间 | 文件大小 |
 |  ----  | ----  | ----  | ----  |
-| [jdchain-peer-1.6.1.RELEASE](https://storage.jd.com/jd.block.chain/jdchain-peer-1.6.1.RELEASE.zip)  | 7b6e2ca482b4d84533cc3839968f8590634646f44854bf780ec89f25626945eb | 2021/12/11  | 43.3M  |
-| [jdchain-gateway-1.6.1.RELEASE](https://storage.jd.com/jd.block.chain/jdchain-gateway-1.6.1.RELEASE.zip)  | 3df90d580ee7a51507549518e052831cc69379b8d1b62175cfd92d6185e8c2f0 | 2021/12/11  | 63.1M  |
+| [jdchain-peer-1.6.1.RELEASE](https://storage.jd.com/jd.block.chain/jdchain-peer-1.6.1.RELEASE-1211.zip)  | 7b6e2ca482b4d84533cc3839968f8590634646f44854bf780ec89f25626945eb | 2021/12/11  | 43.3M  |
+| [jdchain-gateway-1.6.1.RELEASE](https://storage.jd.com/jd.block.chain/jdchain-gateway-1.6.1.RELEASE-1211.zip)  | 3df90d580ee7a51507549518e052831cc69379b8d1b62175cfd92d6185e8c2f0 | 2021/12/11  | 63.1M  |
 | [jdchain-peer-1.6.0.RELEASE](https://storage.jd.com/jd.block.chain/jdchain-peer-1.6.0.RELEASE.zip)  | bcb4ff3bd99660d2f44741d764bbd1f04abf8869e676b6e9ffef359dff3f5cef | 2021/12/11  | 43.3M  |
 | [jdchain-gateway-1.6.0.RELEASE](https://storage.jd.com/jd.block.chain/jdchain-gateway-1.6.0.RELEASE.zip)  | 0857c73b9abeebc8298c4815dc0a5b8d832079ce1cdc4fc807c6f0d427cd0b5a | 2021/12/11  | 63.1M  |
 | [jdchain-peer-1.5.0.RELEASE](https://storage.jd.com/jd.block.chain/jdchain-peer-1.5.0.RELEASE.zip)  | 4604a3b322731944993732711396e208611f5bf726f9fed6a8cdb4ba7ff3217b | 2021/12/11  | 43.3M  |
