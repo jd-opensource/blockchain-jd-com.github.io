@@ -156,7 +156,7 @@ Usage: jdchain-cli ca renew [-hV] [--pretty] --crt=<crtPath> --days=<days>
                           Path of the issuer private key file
       --output=<output>   Path of the new certificate file output
       --pretty            Pretty json print
-  -V, --version           Print version information and exit.
+  -V, --version           Print version information and exit.官网说明中的例子参数错误
 ```
 
 - `crt`，证书文件路径
@@ -201,12 +201,12 @@ Usage: jdchain-cli ca test [-hV] [--pretty] [-a=<algorithm>]
       --users=<users>        Available user size
   -V, --version              Print version information and exit.
 ```
-- `algorithm`，签名算法，默认`ED25519`，仅支持传入`ED25519`,  `RSA`，`ECDSA`，`SM2`之一
+- `algorithm`，签名算法，默认`ED25519`，仅支持传入`ED25519`,  `RSA`，`ECDSA`，`SM2`之一，`TLS`证书仅支持`ECDSA`和`RSA`
 - `nodes`，共识节点个数，生成`nodes`个`PEER`类型的证书，可用于节点使用。默认：`4`
 - `gws`，网关节点个数，生成`gws`个`GW`类型的证书，可用于网关使用。默认：`1`
 - `users`，用户个数，生成`users`可个可用于普通用户使用的证书。默认：`10`
 
-如创建基于`SM2`签名算法的一个`ROOT`类型证书，`4`个节点证书，`1`个网关证书，`10`个用户证书：
+如创建基于`ED25519`签名算法的一个`ROOT`类型证书，`4`个节点证书，`1`个网关证书，`10`个用户证书：
 ```bash
 :bin$ ./jdchain-cli.sh ca test --org JDT --country CN --locality BJ --province BJ --email jdchain@jd.com
 input private key password:
