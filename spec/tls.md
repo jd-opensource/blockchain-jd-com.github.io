@@ -1,6 +1,6 @@
-## 启用TLS支持
+启用TLS支持
 
-### 生成TLS测试证书
+## 生成TLS测试证书
 
 使用`jdchain-cli.sh ca test` 命令生成测试网测试证书，生成的TLS证书在`confg/certs/tls`目录下。 生成文件说明如下:
 
@@ -61,7 +61,7 @@ create test certificates in [../../jdchain-peer-1.6.1/config/certs] success
 
 
 
-### 网关启用TLS支持
+## 网关启用TLS支持
 
 网关启用TLS支持涉及到的配置文件有: `application-gw.properties`, `gateway.conf`
 
@@ -122,9 +122,9 @@ server.ssl.trust-store-password=12345678
 server.ssl.trust-store-type=JKS
 ```
 
-### JDCHAIN CLI命令行
+## CLI命令行
 
-JDCHAIN CLI命令连接启用TLS协议的网关服务时，需增加以下选项进行连接:
+JD Chain CLI命令连接启用TLS协议的网关服务时，需增加以下选项进行连接:
 
 ```
 --gw-secure
@@ -159,7 +159,7 @@ JDCHAIN CLI命令连接启用TLS协议的网关服务时，需增加以下选项
 ```
 
 
-### Peer节点管理服务开启TLS
+## Peer节点管理服务开启TLS
 
 Peer节点管理服务配置文件为: `application-peer.properties`, 其配置说明与网关配置文件`application-gw.properties`相同。
 
@@ -177,7 +177,7 @@ peer.client-auth=none
 
 ```
 
-### Peer共识节点开启TLS
+## Peer共识节点开启TLS
 
 Peer共识节点开启TLS涉及到的配置文件有: `bftsmart.conf`, `local.conf`文件:
 
