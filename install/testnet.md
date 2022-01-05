@@ -469,6 +469,35 @@ keys.default.privkey-password=
 
 ## 更多
 
+1. 基于`RabbitMQ`
+
+以单节点为例
+
+下载可直接初始化使用的[配置](https://jdchain.s3.cn-north-1.jdcloud-oss.com/1.6.2-rabbitmq.zip)，根据实际情况更改账本、公私钥、`RabbitMQ`、数据库配置等信息。
+
+启动`RabbitMQ`：
+```bash
+$ docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:management
+```
+
+执行账本初始化：
+```bash
+$ ./peer0/bin/ledger-init.sh
+```
+
+初始化完成后，执行：
+```bash
+$ ./peer0/bin/peer-startup.sh
+
+$ ./gw/bin/startup.sh
+```
+
+即可启动基于`RabbitMQ`的单节点`JD Chain`网络。默认网关浏览器地址：`http://localhost:8080/`。
+
+2. 管理工具
+
+> 不再推荐使用
+
 `JD Chain`提供了基于界面操作的网络初始化启动工具，相关脚本为`manager-startup.sh`和`manager-shutdown.sh`。
 
 点击 [操作视频](https://storage.jd.com/jd.block.chain/init-jdchain-by-manager-tool.mp4) 查看。
