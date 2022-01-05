@@ -49,4 +49,8 @@
   - [TLS](/spec/tls.md)
   - [高级检索](/spec/indexer.md)
 
+- 扩展
+
+  - [APM](/spec/apm.md)
+
 - [FAQ](faq.md)
