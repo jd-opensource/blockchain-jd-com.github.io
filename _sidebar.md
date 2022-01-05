@@ -51,6 +51,6 @@
 
 - 扩展
 
-  - [APM](/spec/apm.md)
+  - [APM](/more/apm.md)
 
 - [FAQ](faq.md)
