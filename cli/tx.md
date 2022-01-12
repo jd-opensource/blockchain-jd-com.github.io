@@ -431,6 +431,89 @@ input password of the key:
 > 1
 set kv success
 ```
+## 切换共识算法
+
+```bash
+:bin$ ./jdchain-cli.sh tx switch-consensus -h
+Switch consensus type.
+Usage: jdchain-cli tx switch-consensus [-hV]  [--pretty]
+                                    [--export=<export>]
+                                    [--gw-host=<gwHost>] [--gw-port=<gwPort>]
+                                    [--home=<path>]
+      --export=<export>    Transaction export directory
+      --gw-host=<gwHost>   Set the gateway host. Default: 127.0.0.1
+      --gw-port=<gwPort>   Set the gateway port. Default: 8080
+      --file=<config>      Set new consensus config file
+  -h, --help               Show this help message and exit.
+      --home=<path>        Set the home directory.
+      --pretty             Pretty json print
+      --type=<type>        New consensus type. Options: `bft`,`raft`,`mq`
+  -V, --version            Print version information and exit.
+```
+- `file`，目标共识类型的共识配置文件必填
+- `type`，目标共识类型必填
+
+如：
+```bash
+:bin$ ./jdchain-cli.sh tx switch-consensus --type raft --file ../config/init/raft/raft.config 
+select ledger, input the index:
+INDEX  LEDGER
+0      j5sB3sVTFgTqTYzo7KtQjBLSy8YQGPpJpvQZaW9Eqk46dg
+// 选择账本，当前网关服务只有上面一个可用账本
+> 0
+select keypair to sign tx:
+INDEX  KEY                                     ADDRESS
+0      peer0                                   LdeNyibeafrAQXgHjBxgQxoLbna6hL4BcXZiw
+1      k1                                      LdeNwQWabrf6WSjZ35saFo52MfQFhVKvm11aC
+// 选择链上已存在且有注册用户权限的用户所对应的公私钥对，用于交易签名
+> 0
+input password of the key:
+// 输入签名私钥密码
+> 1
+switch consensus type success
+```
+会在链上更新共识类型以及共识配置信息。
+
+## 切换哈希算法
+
+```bash
+:bin$ ./jdchain-cli.sh tx switch-hash-algo -h
+Switch crypto hash algo.
+Usage: jdchain-cli tx switch-hash-algo [-hV]  [--pretty]
+                                    [--export=<export>]
+                                    [--gw-host=<gwHost>] [--gw-port=<gwPort>]
+                                    [--home=<path>]
+      --export=<export>          Transaction export directory
+      --gw-host=<gwHost>         Set the gateway host. Default: 127.0.0.1
+      --gw-port=<gwPort>         Set the gateway port. Default: 8080
+  -h, --help                     Show this help message and exit.
+      --home=<path>              Set the home directory.
+      --pretty                   Pretty json print
+      --hash-algo=<newHashAlgo>  New crypto hash algo.Options:'SHA256','RIPEMD160','SM3'
+  -V, --version            Print version information and exit.
+```
+- `hash-algo`，目标哈希算法必填
+
+如：
+```bash
+:bin$ ./jdchain-cli.sh tx switch-hash-algo --hash-algo SM3
+select ledger, input the index:
+INDEX  LEDGER
+0      j5sB3sVTFgTqTYzo7KtQjBLSy8YQGPpJpvQZaW9Eqk46dg
+// 选择账本，当前网关服务只有上面一个可用账本
+> 0
+select keypair to sign tx:
+INDEX  KEY                                     ADDRESS
+0      peer0                                   LdeNyibeafrAQXgHjBxgQxoLbna6hL4BcXZiw
+1      k1                                      LdeNwQWabrf6WSjZ35saFo52MfQFhVKvm11aC
+// 选择链上已存在且有注册用户权限的用户所对应的公私钥对，用于交易签名
+> 0
+input password of the key:
+// 输入签名私钥密码
+> 1
+switch new hash algo success
+```
+会在链上更新账本配置信息中的哈希算法。
 
 ## 注册事件账户
 
