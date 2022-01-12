@@ -57,6 +57,8 @@ Commands:
   sign                      Sign transaction.
   send                      Send transaction.
   testkv                    Send kv set transaction for testing.
+  switch-consensus          Switch consensus type.
+  switch-hash-algo          Switch crypto hash algo.
   help                      Displays help information about the specified
                               command
 ```
