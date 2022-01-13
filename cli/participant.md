@@ -2,8 +2,10 @@
 实现添加共识节点，移除共识节点，更新共识信息 等功能。
 
 > 节点变更后为了网关及时感知到拓扑变更，网关（gateway.conf）需要正确配置：
+
 > topology.aware=true
-> topology.aware.interval=<非0值>
+
+> topology.aware.interval=<非0值，毫秒>
 
 ```bash
 :bin$ ./jdchain-cli.sh participant -h
