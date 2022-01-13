@@ -1,6 +1,10 @@
 借助`BFT-SMaRt`共识提供的`Reconfig`操作元语，`JD Chain`实现了在不停机的情况下快速更新共识网络拓扑，
 实现添加共识节点，移除共识节点，更新共识信息 等功能。
 
+> 节点变更后为了网关及时感知到拓扑变更，网关（gateway.conf）需要正确配置：
+> topology.aware=true
+> topology.aware.interval=<非0值>
+
 ```bash
 :bin$ ./jdchain-cli.sh participant -h
 Usage: jdchain-cli participant [-hV] [--pretty] [--home=<path>] [--ssl.
