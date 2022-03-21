@@ -1,18 +1,10 @@
-JD Chain 智能合约系统由5个部分组成：合约代码语言、合约引擎、合约账户、合约开发框架、合约开发插件。
-
-合约代码语言是用来编写智能合约的编程语言，合约引擎是解释和执行合约代码的虚拟机。
-
 JD Chain 账本中以合约账户的方式对合约代码进行管理。一份部署上链的合约代码需要关联到一个唯一的公钥上，并生成与公钥对应的区块链账户地址，在账本中注册为一个合约账户。在执行之前，系统从账本中读出合约代码并将其加载到合约引擎，由交易执行器调用合约引擎触发合约执行。
 
 JD Chain 账本定义了一组标准的账本操作指令，合约代码的执行过程实质上是向账本输出一串操作指令序列，这些指令对账本中的数据产生了变更，形成合约执行的最终结果。
 
-合约开发框架定义了进行合约代码开发中需要依赖的一组编程接口和类库。合约开发插件提供了更方便与IDE集成的合约编译、部署工具，可以简化操作，并与持续集成过程结合。
+JD Chain 支持多语言合约实现，`1.6.3`版本已实现：`Java`、`JavaScript`、`Python`三种合约语言。
 
-JD Chain 以 Java 语言作为合约代码语言，合约引擎是基于 JVM 构建的安全沙盒。为了实现与主流的应用开发方式无缝兼容， JD Chain 支持以 Maven 来管理合约代码的工程项目，并提供相应的 maven 插件来简化合约的编译和部署。
-
->智能合约是一种可以由计算机执行的合同/协议。不同于现实生活中的合同是由自然语言来编写并约定相关方的权利和义务，智能合约是用合约代码语言来编写，以合约代码的形式存在和被执行。通过账本中的数据状态来表示合同/协议相关条款信息，合约代码的运行过程体现了合同/协议条款的执行，并记录相应的结果。
-
-## 快速入门
+## Java Contract
 
 ### 准备开发环境
 
@@ -129,15 +121,14 @@ JD Chain 以 Java 语言作为合约代码语言，合约引擎是基于 JVM 构
 
 ### 编写合约代码
 
-1. **注意事项**
+> **注意事项**
+> 1. 不允许合约（包括合约接口和合约实现类）使用com.jd.blockchain开头的package；
+> 2. 必须有且只有一个接口使用@Contract注解，且其中的event必须大于等于一个；
+> 3. 使用@Contract注解的接口有且只有一个实现类；
+> 4. 黑名单调用限制（具体黑名单可查看配置文件），需要注意的是，黑名单分析策略会递归分析类实现的接口和父类，也就是说调用一个实现了指定黑名单接口的类也是不允许的；
 
-1. 不允许合约（包括合约接口和合约实现类）使用com.jd.blockchain开头的package；
-2. 必须有且只有一个接口使用@Contract注解，且其中的event必须大于等于一个；
-3. 使用@Contract注解的接口有且只有一个实现类；
-4. 黑名单调用限制（具体黑名单可查看配置文件），需要注意的是，黑名单分析策略会递归分析类实现的接口和父类，也就是说调用一个实现了指定黑名单接口的类也是不允许的；
-   
 
-目前设置的黑名单如下：
+1. **黑名单**
 ```conf
 java.io.File
 java.io.InputStream
@@ -158,6 +149,7 @@ java.util.Random
 java.lang.System-currentTimeMillis
 java.lang.System-nanoTime
 com.jd.blockchain.ledger.BlockchainKeyGenerator
+java.lang.Thread
 ```
 
 2. **声明合约**
@@ -223,9 +215,10 @@ public class AssetContractImpl implements AssetContract, EventProcessingAware {
 }
 ```
 
-**账本数据可见范围**：
+5. **账本数据可见范围**：
 
 `ContractEventContext`中`getUncommittedLedger`方法可访问执行中的未提交区块数据，此方法的合理使用可以解决客户并发调用合约方法涉及数据版本/事件序列冲突的问题。
+
 ```java
 /**
  * 当前包含未提交区块数据账本查询上下文；
@@ -303,144 +296,225 @@ mvn clean package
 mvn clean deploy
 ```
 2. 发布已编译好的car
-如果已经通过插件的打包方式，编译打包完成一个合约文件（.car），可通过命令行的方式进行发布，命令行要求与开发环境一致的Maven环境（包括环境变量及Setting都已配置完成）。
 
-```bash
-mvn com.jd.blockchain:contract-maven-plugin:${version}:deploy
-      -DcarPath=
-      -Dledger=
-      -DgatewayHost=
-      -DgatewayPort=
-      -DcontractPubKey=
-      -DcontractAddress=
-      -DsignerPubKey=
-      -DsignerPrivKey=
-      -DsignerPrivKeyPwd=
+使用[jdchain-cli](cli/tx#部署合约)或者[SDK](#合约部署)部署合约
+
+## GraalVM Contract
+
+JD Chain非JVM语言合约将基于[GraalVM](https://www.graalvm.org/)实现。
+
+### GraalVM
+
+GraalVM 是一个高性能 JDK 发行版，旨在加速用 Java 和其他 JVM 语言编写的应用程序的执行，同时支持 JavaScript、Ruby、Python 和许多其他流行语言。GraalVM 的多语言功能可以在单个应用程序中混合多种编程语言，同时消除外语调用成本。
+
+GraalVM Polyglot API 允许在基于 JVM 的主机应用程序中嵌入和运行来自其他类型语言的代码，直接与这些语言互操作，并在同一内存空间中来回传递数据。
+
+### 合约语言
+
+基于GraalVM JD Chain 非JVM语言已实现`JavaScript`、`Python`。
+
+### 合约设计
+
+#### 合约结构
+
+`ContractInfo`增加`合约语言`字段：
+
+```java
+@DataContract(code= DataCodes.CONTRACT_ACCOUNT_HEADER)
+public interface ContractInfo extends BlockchainIdentity, AccountSnapshot, PermissionAccount {
+
+    @DataField(order=4, primitiveType= PrimitiveType.BYTES)
+    byte[] getChainCode();
+
+    @DataField(order=5, primitiveType= PrimitiveType.INT64)
+    long getChainCodeVersion();
+
+    @DataField(order=6, refEnum = true)
+    ContractLang getLang();
+}
 ```
 
-各参数说明如下：
+`ContractLang`：
 
-|  参数名   | 含义  |是否必填|
-|  ----  | ----  |  ----  |
-| ${version}  | 合约插件的版本号 | 否，系统会自动选择发布的最新的RELEASE版本，SNAPSHOT版本必须填写 |
-| carPath  | 合约文件所在路径 | 是 |
-| ledger  | 账本Hash（Base58编码） | 否，会自动选择线上第一个账本|
-| gatewayHost  | 可访问的网关节点地址，域名或IP地址 | 是|
-| gatewayPort  | 网关节点监听端口 | 是 |
-| contractPubKey  | 合约账户的公钥（Base58编码）| 否，会自动创建 |
-| contractAddress  | 合约账户的地址（Base58编码）|否，会根据contractPubKey生成|
-| signerPubKey  | 合约签名公钥信息（Base58编码）|是|
-| signerPrivKey  | 合约签名私钥信息（Base58编码）|是|
-| signerPrivKeyPwd  | 合约签名私钥解密密钥（Base58编码）|是|
+```java
+/**
+ * 合约语言
+ */
+@EnumContract(code = DataCodes.CONTRACT_LANG)
+public enum ContractLang {
 
+    Java((byte) 0x01),
+    JavaScript((byte) 0x02),
+    Python((byte) 0x03);
 
-下面是一个示例，供参考：
+    @EnumField(type = PrimitiveType.INT8)
+    public final byte CODE;
 
-```bash
-mvn com.jd.blockchain:contract-maven-plugin:1.2.0.RELEASE:deploy \
-      -DcarPath=/root/jdchain/contracts/contract-test-1.0-SNAPSHOT.car \
-      -Dledger=j5tW5HUvMjEtm2yB7E6MHoSByoH1DXvMwvF2HurEgMSaLW \
-      -DgatewayHost=127.0.0.1 \
-      -DgatewayPort=11000 \
-      -DcontractPubKey= 7VeRBsHM2nsGwP8b2ufRxz36hhNtSqjKTquzoa4WVKWty5sD \
-      -DcontractAddress= LdeNt7sEmTirh9PmE7axKvA2txTrbB9kxz6KB \
-      -DsignerPubKey=7VeRLdGtSz1Y91gjLTqEdnkotzUfaAqdap3xw6fQ1yKHkvVq \
-      -DsignerPrivKey=177gjzHTznYdPgWqZrH43W3yp37onm74wYXT4v9FukpCHBrhRysBBZh7Pzdo5AMRyQGJD7x \
-      -DsignerPrivKeyPwd=DYu3G8aGTMBW1WrTw76zxQJQU4DHLw9MLyy7peG4LKkY
+    ContractLang(byte code) {
+        this.CODE = code;
+    }
+
+}
 ```
 
-> 重点说明：
-命令行中输入参数的优先级高于配置文件，就是说通过2.7.1方式发布合约时也可以采用命令行的参数（指-D相关配置），其优先级高于配置文件。
+#### 合约规范
 
-## 合约插件详细配置
+区别于Java合约使用car包方式，非JVM语言合约将使用源码/位码（LVVM）在链上链下交互。
 
-```xml
-<plugin>
-   <groupId>com.jd.blockchain</groupId>
-   <artifactId>contract-maven-plugin</artifactId>
-   <version>1.2.0.RELEASE</version>
-   <extensions>true</extensions>
-   <configuration>
-      <!-- 是否把所有的依赖项打包输出到一个独立的 “库文件(.lib)”，默认为 false-->
-      <!-- 设置为 false 时 ，合约代码和依赖项一起打包输出到 “合约代码文件(.car)” -->
-      <!-- 设置为 true ，合约代码和依赖项分别打包，分别输出 “合约代码文件(.car)” 和 “库文件(.lib)” -->
-      <!-- 注：
-            1. 如果“合约代码文件(.car)”的尺寸超出最大尺寸将引发异常，可把此项配置设置为 true 以减小“合约代码文件(.car)”的尺寸。
-            2. “合约代码文件(.car)”的默认最大尺寸为 1 MB，由区块链网络的配置设定，如果不满足则需要由区块链网络的管理员进行调整。 
-            3. “合约库文件（.lib）”的尺寸不受“合约代码文件(.car)”的最大尺寸限制，部署过程只有“哈希上链”，库文件通过链下的分发网络自动同步至各个共识节点。
-            -->
-      <outputLibrary>false</outputLibrary>
+基于官方提供对应语言的链上数据交互接口或依赖，这些依赖提供链上数据访问、写入的封装，用户合约方法可自由组装这些接口实现复杂业务逻辑。
 
-      <!-- 合约代码最大字节数；可选；--> 
-      <!-- 默认为 1 (MB)；如果超出该值将给予错误提示；如果值小于等于 0，则不做校验 --> 
-      <!-- 注：此参数仅影响编译打包时的本地校验，实际部署时仍然由区块链网络上的配置决定 -->
-      <maxCarSize>1</maxCarSize>
-      <!-- 合约代码最大字节数的单位；-->
-      <!-- 合法值的格式为“整数值+单位”；可选单位有： Byte, KB, MB；不区分大小写;-->
-      <maxCarSizeUnit>MB</maxCarSizeUnit>
+##### JavaScript
 
-      <!-- 合约部署配置；可选 -->
-      <deployment>
-         <!-- 账本的哈希；Base58 格式；非必填项，会自动选择线上第一个账本 -->
-         <ledger></ledger>
+`JavaScript`语言合约执行前会自动注入：
 
-         <!-- 区块链网络的网关地址 -->
-         <gateway>
-            <host></host>
-            <port></port>
-         </gateway>
+- `eventContext`，合约执行上下文，提供账本数据库查询、写入能力
+- `JSONUtils`，JSON序列化，JD Chain账本数据库部分数据结构序列化存在特殊处理，在序列化JD Chain定义的数据结构时请使用`JSONUtils.stringify(***)`
+- `LOGGER`，`log4j2`日志组件，如`info`级别日志输出：`LOGGER.info()`
 
-         <!-- 合约账户 -->
-         <!-- 合约账户的地址address（Base58编码）,会根据pubKey生成> -->
-         <contractAddress>
-              <pubKey></pubKey>
-              <address></address>
-          </contractAddress>
+以下`JS`方法提供了KV写入、数据版本查询、数据查询基本功能，可直接保存当做合约文件使用，也可以自由组合创建复杂的合约逻辑。
+> 以下方法直接作为合约方法调用时，所有参数均不能是`undefined`
+```js
+// 写入KV, 内容为字符串，使用最新版本
+function setText(address, key, value) {
+    version = getVersion(address, key);
+    setTextWithVersion(address, key, value, version)
+}
 
-         <!-- 合约部署交易的签名账户；该账户必须具备合约部署的权限； -->
-         <signer>
-            <!-- 账户公钥；Base58 格式； -->
-            <pubKey></pubKey>
-            <!-- 账户私钥；Base58 格式； -->
-            <privKey></privKey>
-            <!-- 账户私钥解密密码；Base58 格式； -->
-            <privKeyPwd></privKeyPwd>
-         </signer>
-      </deployment>
-   </configuration>
-</plugin>
+// 写入KV, 内容为字符串，版本参数传入
+function setTextWithVersion(address, key, value, version) {
+    eventContext.getLedger().dataAccount(address).setText(key, value, version);
+}
+
+// 写入KV, 内容为long，使用最新版本
+function setInt64(address, key, value) {
+    version = getVersion(address, key);
+    setInt64WithVersion(address, key, value, version)
+}
+
+// 写入KV, 内容为long，版本参数传入
+function setInt64WithVersion(address, key, value, version) {
+    eventContext.getLedger().dataAccount(address).setInt64(key, value, version);
+}
+
+// 获取数据最新版本
+function getVersion(address, key) {
+    var dataEntries = eventContext.getUncommittedLedger().getDataEntries(address, key);
+    if (dataEntries != null && dataEntries.length > 0) {
+        return dataEntries[0].getVersion();
+    } else {
+        return -1;
+    }
+}
+
+// 获取最新版本数据值
+function getValue(address, key) {
+    version = getVersion(address, key);
+    return getValueWithVersion(address, key, version);
+}
+
+// 获取指定版本数据值
+function getValueWithVersion(address, key, version) {
+    if (version == -1) {
+        return null;
+    }
+    var dataEntry = eventContext.getUncommittedLedger().getDataEntry(address, key, version);
+    if (null != dataEntry) {
+        return dataEntry.getValue();
+    } else {
+        return null;
+    }
+}
+
+// 合约方法执行前操作
+function beforeEvent(eventContext) {
+
+}
+
+// 合约方法执行后操作
+function postEvent(eventContext, error) {
+
+}
 ```
 
-## 最简化合约插件配置示例
+> 合约方法参数限制：仅可使用 `String`、`int`、`long`、`boolean`、`byte[]`
+>
+> 合约方法返回值限制：仅可使用 `String`、`int`、`long`、`boolean`、`byte[]`
 
-在pom.xml中有部分配置是非必填项，下面是一份最简化的合约发布（deploy）配置示例，供参考：
+##### Python
+
+**运行在GraalVM JDK下的JD Chain才可以调用Python语言合约**
+
+和`JavaScript`合约一样，`Python`语言合约执行前会自动注入：
+
+- `eventContext`，合约执行上下文，提供账本数据库查询、写入能力
+- `JSONUtils`，JSON序列化，JD Chain账本数据库部分数据结构序列化存在特殊处理，在序列化JD Chain定义的数据结构时请使用`JSONUtils.stringify(***)`
+- `LOGGER`，`log4j2`日志组件，如`info`级别日志输出：`LOGGER.info()`
+
+以下`python`方法提供了KV写入、数据版本查询、数据查询基本功能，可直接保存当做合约文件使用，也可以自由组合创建复杂的合约逻辑。
+> 以下方法直接作为合约方法调用时，所有参数均不能是`None`
+
+```python
+# 写入KV, 内容为字符串，使用最新版本
+def setText(address, key, value):
+    version = getVersion(address, key)
+    setTextWithVersion(address, key, value, version)
 
 
-```xml
-<plugin>
-   <groupId>com.jd.blockchain</groupId>
-   <artifactId>contract-maven-plugin</artifactId>
-   <version>1.2.0.RELEASE</version>
-   <extensions>true</extensions>
-   <configuration>
-      <!-- 合约部署配置-->
-      <deployment>
-         <!-- 区块链网络的网关地址 -->
-         <gateway>
-            <host>127.0.0.1</host>
-            <port>8081</port>
-         </gateway>
+# 写入KV, 内容为字符串，版本参数传入
+def setTextWithVersion(address, key, value, version):
+    eventContext.getLedger().dataAccount(address).setText(key, value, version)
 
-         <!-- 合约部署交易的签名账户；该账户必须具备合约部署的权限； -->
-         <signer>
-            <pubKey>7VeRLdGtSz1Y91gjLTqEdnkotzUfaAqdap3xw6fQ1yKHkvVq</pubKey>
-            <privKey>177gjzHTznYdPgWqZrH43W3yp37onm74wYXT4v9FukpCHBrhRysBBZh7Pzdo5AMRyQGJD7x</privKey>
-            <privKeyPwd>DYu3G8aGTMBW1WrTw76zxQJQU4DHLw9MLyy7peG4LKkY</privKeyPwd>
-         </signer>
-      </deployment>
-   </configuration>
-</plugin>
+
+# 写入KV, 内容为long，使用最新版本
+def setInt64(address, key, value):
+    version = getVersion(address, key)
+    setInt64WithVersion(address, key, value, version)
+
+
+# 写入KV, 内容为long，版本参数传入
+def setInt64WithVersion(address, key, value):
+    version = getVersion(address, key)
+    eventContext.getLedger().dataAccount(address).setInt64(key, value, version)
+
+
+# 获取数据最新版本
+def getVersion(address, key):
+    dataEntries = eventContext.getUncommittedLedger().getDataEntries(address, key)
+    if None != dataEntries and dataEntries.length > 0:
+        return dataEntries[0].getVersion()
+    else:
+        return -1
+
+
+# 获取最新版本数据值
+def getValue(address, key):
+    version = getVersion(address, key)
+    return getValueWithVersion(address, key, version)
+
+
+# 获取指定版本数据值
+def getValueWithVersion(address, key, version):
+    dataEntry = eventContext.getUncommittedLedger().getDataEntry(address, key, version)
+    if None != dataEntry:
+        return dataEntry.getValue()
+    else:
+        return None
+
+
+# 合约方法执行前操作
+def beforeEvent(eventContext):
+    return
+
+
+# 合约方法执行后操作
+def postEvent(eventContext, error):
+    return
 ```
+
+## 合约安全
+
+`Java`语言合约安全基于编译插件黑名单、运行时`Security Manager`来保证。
+`GraalVM`合约语言基于[互操作性安全控制](https://www.graalvm.org/22.0/security-guide/)保证。
 
 ## SDK
 

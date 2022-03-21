@@ -4,11 +4,14 @@
 :bin$ ./jdchain-cli.sh tx -h
 Usage: jdchain-cli tx [-hV] [--gw-secure] [--pretty] [--export=<export>]
                       [--gw-host=<gwHost>] [--gw-port=<gwPort>] [--home=<path>]
-                      [--ssl.key-alias=<keyAlias>] [--ssl.key-store=<keyStore>]
-                      [--ssl.key-store-password=<keyStorePassword>] [--ssl.
+                      [--ssl.ciphers=<ciphers>] [--ssl.
+                      enabled-protocols=<enabledProtocols>] [--ssl.
+                      host-verifier=<hostNameVerifier>] [--ssl.
+                      key-alias=<keyAlias>] [--ssl.key-store=<keyStore>] [--ssl.
+                      key-store-password=<keyStorePassword>] [--ssl.
                       key-store-type=<keyStoreType>] [--ssl.
-                      trust-store=<trustStore>] [--ssl.
-                      trust-store-password=<trustStorePassword>] [--ssl.
+                      protocol=<protocol>] [--ssl.trust-store=<trustStore>]
+                      [--ssl.trust-store-password=<trustStorePassword>] [--ssl.
                       trust-store-type=<trustStoreType>] [COMMAND]
 Build, sign or send transaction.
       --export=<export>    Transaction export directory
@@ -21,20 +24,29 @@ Build, sign or send transaction.
       --home=<path>        Set the home directory.
                              Default: ../config
       --pretty             Pretty json print
+      --ssl.ciphers=<ciphers>
+                           Set ssl.ciphers for SSL.
+      --ssl.enabled-protocols=<enabledProtocols>
+                           Set ssl.enabled-protocols for SSL.
+      --ssl.host-verifier=<hostNameVerifier>
+                           Set host verifier for SSL. NO-OP or Default
+                             Default: NO-OP
       --ssl.key-alias=<keyAlias>
-                           Set ssl.key-alias for TLS.
+                           Set ssl.key-alias for SSL.
       --ssl.key-store=<keyStore>
-                           Set ssl.key-store for TLS.
+                           Set ssl.key-store for SSL.
       --ssl.key-store-password=<keyStorePassword>
-                           Set ssl.key-store-password for TLS.
+                           Set ssl.key-store-password for SSL.
       --ssl.key-store-type=<keyStoreType>
-                           Set ssl.key-store-type for TLS.
+                           Set ssl.key-store-type for SSL.
+      --ssl.protocol=<protocol>
+                           Set ssl.protocol for SSL.
       --ssl.trust-store=<trustStore>
-                           Set ssl.trust-store for TLS.
+                           Set ssl.trust-store for SSL.
       --ssl.trust-store-password=<trustStorePassword>
-                           Set trust-store-password for TLS.
+                           Set trust-store-password for SSL.
       --ssl.trust-store-type=<trustStoreType>
-                           Set ssl.trust-store-type for TLS.
+                           Set ssl.trust-store-type for SSL.
   -V, --version            Print version information and exit.
 Commands:
   root-ca                   Update ledger root certificates.
@@ -57,8 +69,8 @@ Commands:
   sign                      Sign transaction.
   send                      Send transaction.
   testkv                    Send kv set transaction for testing.
-  switch-consensus          Switch consensus type.
-  switch-hash-algo          Switch crypto hash algo.
+  consensus-switch          Switch consensus type.
+  hash-algo-switch          Switch crypto hash algo.
   help                      Displays help information about the specified
                               command
 ```
@@ -434,28 +446,37 @@ set kv success
 ## 切换共识算法
 
 ```bash
-:bin$ ./jdchain-cli.sh tx switch-consensus -h
+:bin$ ./jdchain-cli.sh tx consensus-switch -h
 Switch consensus type.
-Usage: jdchain-cli tx switch-consensus [-hV]  [--pretty]
-                                    [--export=<export>]
-                                    [--gw-host=<gwHost>] [--gw-port=<gwPort>]
-                                    [--home=<path>]
-      --export=<export>    Transaction export directory
-      --gw-host=<gwHost>   Set the gateway host. Default: 127.0.0.1
-      --gw-port=<gwPort>   Set the gateway port. Default: 8080
-      --file=<config>      Set new consensus config file
+Usage: jdchain-cli tx consensus-switch [-hV] [--gw-secure] [--pretty]
+                                       --config=<config>
+                                       --consensus=<consensus>
+                                       [--export=<export>] [--gw-host=<gwHost>]
+                                       [--gw-port=<gwPort>] [--home=<path>]
+                                       [--ssl.ciphers=<ciphers>] [--ssl.
+                                       enabled-protocols=<enabledProtocols>]
+                                       [--ssl.host-verifier=<hostNameVerifier>]
+                                       [--ssl.key-alias=<keyAlias>] [--ssl.
+                                       key-store=<keyStore>] [--ssl.
+                                       key-store-password=<keyStorePassword>]
+                                       [--ssl.key-store-type=<keyStoreType>]
+                                       [--ssl.protocol=<protocol>] [--ssl.
+                                       trust-store=<trustStore>] [--ssl.
+                                       trust-store-password=<trustStorePassword>
+                                       ] [--ssl.
+                                       trust-store-type=<trustStoreType>]
+      --config=<config>    Set new consensus config file
+      --consensus=<consensus>
+                           New consensus type. Options: `BFTSMART`,`RAFT`,`MQ`
   -h, --help               Show this help message and exit.
-      --home=<path>        Set the home directory.
-      --pretty             Pretty json print
-      --type=<type>        New consensus type. Options: `bft`,`raft`,`mq`
   -V, --version            Print version information and exit.
 ```
-- `file`，目标共识类型的共识配置文件必填
-- `type`，目标共识类型必填
+- `config`，目标共识类型的共识配置文件必填
+- `consensus`，目标共识类型必填
 
 如：
 ```bash
-:bin$ ./jdchain-cli.sh tx switch-consensus --type raft --file ../config/init/raft/raft.config 
+:bin$ ./jdchain-cli.sh tx consensus-switch --consensus RAFT --config ../config/init/raft/raft.config 
 select ledger, input the index:
 INDEX  LEDGER
 0      j5sB3sVTFgTqTYzo7KtQjBLSy8YQGPpJpvQZaW9Eqk46dg
@@ -477,26 +498,34 @@ switch consensus type success
 ## 切换哈希算法
 
 ```bash
-:bin$ ./jdchain-cli.sh tx switch-hash-algo -h
+:bin$ ./jdchain-cli.sh tx hash-algo-switch -h
 Switch crypto hash algo.
-Usage: jdchain-cli tx switch-hash-algo [-hV]  [--pretty]
-                                    [--export=<export>]
-                                    [--gw-host=<gwHost>] [--gw-port=<gwPort>]
-                                    [--home=<path>]
-      --export=<export>          Transaction export directory
-      --gw-host=<gwHost>         Set the gateway host. Default: 127.0.0.1
-      --gw-port=<gwPort>         Set the gateway port. Default: 8080
-  -h, --help                     Show this help message and exit.
-      --home=<path>              Set the home directory.
-      --pretty                   Pretty json print
-      --hash-algo=<newHashAlgo>  New crypto hash algo.Options:'SHA256','RIPEMD160','SM3'
+Usage: jdchain-cli tx hash-algo-switch [-hV] [--gw-secure] [--pretty]
+                                       -a=<newHashAlgo> [--export=<export>]
+                                       [--gw-host=<gwHost>]
+                                       [--gw-port=<gwPort>] [--home=<path>]
+                                       [--ssl.ciphers=<ciphers>] [--ssl.
+                                       enabled-protocols=<enabledProtocols>]
+                                       [--ssl.host-verifier=<hostNameVerifier>]
+                                       [--ssl.key-alias=<keyAlias>] [--ssl.
+                                       key-store=<keyStore>] [--ssl.
+                                       key-store-password=<keyStorePassword>]
+                                       [--ssl.key-store-type=<keyStoreType>]
+                                       [--ssl.protocol=<protocol>] [--ssl.
+                                       trust-store=<trustStore>] [--ssl.
+                                       trust-store-password=<trustStorePassword>
+                                       ] [--ssl.
+                                       trust-store-type=<trustStoreType>]
+  -a, --algorithm=<newHashAlgo>
+                           New crypto hash algo.
+                             Options:'SHA256','RIPEMD160','SM3'
   -V, --version            Print version information and exit.
 ```
-- `hash-algo`，目标哈希算法必填
+- `algorithm`，目标哈希算法必填
 
 如：
 ```bash
-:bin$ ./jdchain-cli.sh tx switch-hash-algo --hash-algo SM3
+:bin$ ./jdchain-cli.sh tx hash-algo-switch --algorithm SM3
 select ledger, input the index:
 INDEX  LEDGER
 0      j5sB3sVTFgTqTYzo7KtQjBLSy8YQGPpJpvQZaW9Eqk46dg
@@ -676,26 +705,37 @@ New block:2:12
 ```bash
 :bin$ ./jdchain-cli.sh tx contract-deploy -h
 Deploy or update contract.
-Usage: jdchain-cli tx contract-deploy [-hV] [--pretty] --car=<car>
-                                      [--export=<export>] [--gw-host=<gwHost>]
-                                      [--gw-port=<gwPort>] [--home=<path>]
-                                      [--pubkey=<pubkey>]
-      --car=<car>          The car file path
-      --export=<export>    Transaction export directory
-      --gw-host=<gwHost>   Set the gateway host. Default: 127.0.0.1
-      --gw-port=<gwPort>   Set the gateway port. Default: 8080
+Usage: jdchain-cli tx contract-deploy [-hV] [--gw-secure] [--pretty]
+                                      --code=<code> [--export=<export>]
+                                      [--gw-host=<gwHost>] [--gw-port=<gwPort>]
+                                      [--home=<path>] [--lang=<lang>]
+                                      [--pubkey=<pubkey>] [--ssl.
+                                      ciphers=<ciphers>] [--ssl.
+                                      enabled-protocols=<enabledProtocols>]
+                                      [--ssl.host-verifier=<hostNameVerifier>]
+                                      [--ssl.key-alias=<keyAlias>] [--ssl.
+                                      key-store=<keyStore>] [--ssl.
+                                      key-store-password=<keyStorePassword>]
+                                      [--ssl.key-store-type=<keyStoreType>]
+                                      [--ssl.protocol=<protocol>] [--ssl.
+                                      trust-store=<trustStore>] [--ssl.
+                                      trust-store-password=<trustStorePassword>]
+                                       [--ssl.trust-store-type=<trustStoreType>]
+      --code=<code>        The contract file file path
   -h, --help               Show this help message and exit.
       --home=<path>        Set the home directory.
+      --lang=<lang>        The contract language
       --pretty             Pretty json print
       --pubkey=<pubkey>    The pubkey of the exist contract
   -V, --version            Print version information and exit.
 ```
 - `pubkey`，合约公钥，更新合约时使用
-- `car`，合约`car`文件
+- `code`，合约文件
+- `lang`，合约语言，目前支持：`Java`、`JavaScript`、`Python`，默认`Java`
 
 如将`contract-samples-1.5.0.RELEASE.car`文件中的合约部署上链：
 ```bash
-:bin$ ./jdchain-cli.sh tx contract-deploy --car /home/imuge/Desktop/jdchain-cli/1.5.0/contract-samples-1.5.0.RELEASE.car
+:bin$ ./jdchain-cli.sh tx contract-deploy --code /home/imuge/Desktop/jdchain-cli/1.5.0/contract-samples-1.5.0.RELEASE.car
 select ledger, input the index:
 INDEX  LEDGER
 0      j5sB3sVTFgTqTYzo7KtQjBLSy8YQGPpJpvQZaW9Eqk46dg
