@@ -11,8 +11,8 @@
 
 **关于版本升级**
 
-正常情况下版本向下兼容，部分版本升级只支持所有节点同时升级的方式。
-替换`peer`和`gw`中`bin`、`lib`、`libs`、`system`，移除`runtime/~credentials/`、`runtime/~<ledger-hash>/~credentials/`目录内数据即可。
+正常情况下版本向下兼容，升级只支持所有节点同时升级的方式。
+替换`peer`和`gw`中`bin`、`lib`、`libs`、`system` jar包，移除`runtime/~credentials/`、`runtime/~<ledger-hash>/~credentials/`目录内数据即可。
 
 > 升级后不同版本若存在合约调用失败，请使用最新版本依赖重新打包更新合约。
 > 数据无价，升级前做好备份，操作请谨慎！
