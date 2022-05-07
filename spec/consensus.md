@@ -28,7 +28,7 @@ consensus.service-provider=com.jd.blockchain.consensus.raft.RaftConsensusProvide
 consensus.conf=.../raft.config
 ```
 
-参照[初始化基于RabbitMQ的测试网络](../cli/testnet.md#Raft)
+参照[初始化基于Raft的测试网络](../cli/testnet.md#Raft)
 
 ### BFT-SMaRt
 
