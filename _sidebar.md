@@ -42,8 +42,10 @@
     - [证书](/spec/ca.md)
     - [SSL](/spec/ssl.md)
     - [存储](/spec/store.md)
+    - [共识算法](/spec/consensus.md)
     - [高级检索](/spec/indexer.md)
 - 扩展
 
-    - [APM](/more/apm.md)
+- [APM](/more/apm.md)
+- [Roadmap](roadmap.md)
 - [FAQ](faq.md)
