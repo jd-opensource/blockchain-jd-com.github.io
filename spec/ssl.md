@@ -4,13 +4,13 @@
 
 使用`jdchain-cli.sh ca test` 命令生成测试网测试证书，生成的TLS证书在`confg/certs/tls`目录下。 生成文件说明如下:
 
-* gw1.crt: 网关证书
-* gw1.keystore: 网关keystore文件
+* gw0.crt: 网关证书
+* gw0.keystore: 网关keystore文件
 * peer[0-3].crt: peer测试节点peer0,peer1,peer2,peer3证书
 * peer[0-3].keystore: peer测试节点peer0,peer1,peer2,peer3 keystore文件
 * trust.jks: truststore文件，已存放所有测试节点的公钥信息
-* user[1-10].crt: user测试用户证书
-* user[1-10].keystore: user测试用户keystore文件
+* user[0-9].crt: user测试用户证书
+* user[0-9].keystore: user测试用户keystore文件
 
 
 命令说明:
@@ -161,7 +161,22 @@ JD Chain CLI命令连接启用TLS协议的网关服务时，需增加以下选�
 
 ## Peer节点管理服务开启TLS
 
-Peer节点管理服务配置文件为: `application-peer.properties`, 其配置说明与网关配置文件`application-gw.properties`相同。
+Peer节点管理服务配置文件为: `application-peer.properties`
+```properties
+server.ssl.enabled=true
+server.ssl.client-auth=none
+server.ssl.key-store=peer0.keystore
+server.ssl.key-store-type=PKCS12
+server.ssl.key-alias=
+server.ssl.key-store-password=
+server.ssl.protocol=TLS
+server.ssl.enabled-protocols=TLSv1.2
+server.ssl.trust-store=trust.jks
+server.ssl.trust-store-password=
+server.ssl.trust-store-type=JKS
+server.ssl.hostNameVerifier=NO-OP
+```
+参照`SpringBoot` `TLS`配置方式
 
 Peer节点管理服务开启TLS后， 需同步修改网关配置文件`gateway.conf`:
 
@@ -220,7 +235,7 @@ local.parti.ssl.key-store-password=12345678
 local.parti.ssl.trust-store=/home/test/config/certs/trust.jks
 local.parti.ssl.trust-store-password=12345678
 local.parti.ssl.trust-store-type=JKS
-local.parti.ssl.protocol=TLSv1.2
+local.parti.ssl.protocol=TLS
 local.parti.ssl.enabled-protocols=TLSv1.2
 local.parti.ssl.ciphers=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
 
@@ -233,37 +248,19 @@ local.parti.ssl.ciphers=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
 peer.consensus.secure=true
 ```
 
+## 国密
 
+a. 证书生成
 
+`-a`传入`SM2`
 
+b. 配置
 
+与传统配置主要是`protocol`和`ciphers`的区别：
+```peoperties
+local.parti.ssl.protocol=GMTLS
+local.parti.ssl.enabled-protocols=GMTLS
+local.parti.ssl.ciphers=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,ECC_SM4_CBC_SM3,ECDHE_SM4_GCM_SM3,ECDHE_SM4_CBC_SM3
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+> 国密仅支持 OpenJDK 1.8

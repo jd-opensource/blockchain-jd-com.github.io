@@ -111,4 +111,29 @@ assertTrue(function.verify(signatureDigest, pubKey, data));
 
 ## 高级密码算法
 
-Comming soon...
+### Elgamal
+
+签名验签：
+```java
+// 获取算法
+CryptoAlgorithm algorithm = Crypto.getAlgorithm("ELGAMAL");
+AsymmetricEncryptionFunction cryptoFunction = Crypto.getAsymmetricEncryptionFunction(algorithm);
+// 生成公私钥对
+AsymmetricKeypair keypair = cryptoFunction.generateKeypair();
+byte[] data = "hello".getBytes(StandardCharsets.UTF_8);
+byte[] encrypt = cryptoFunction.encrypt(keypair.getPubKey(), data);
+byte[] decrypt = cryptoFunction.decrypt(keypair.getPrivKey(), encrypt);
+assertArrayEquals(data, decrypt);
+```
+
+### Paillier
+
+Paillier 提供加解密，同态加法、乘法，[工具类](https://github.com/blockchain-jd-com/jdchain-framework/blob/5d83bf7248604ad8afab34c24ddbefe1725a3fe1/crypto/crypto-adv/src/test/java/com/jd/blockchain/crypto/service/adv/PaillierCryptoFunctionTest.java)及合约[示例参照](https://github.com/blockchain-jd-com/jdchain-samples/blob/b576f2bb9e7ec7e43b1bc2cb43326561ffa8f8aa/contract-samples/src/main/java/com/jdchain/samples/contract/SampleContract.java#L181)
+
+### Shamir
+
+基于开源[Shamir](https://github.com/codahale/shamir)实现，提供秘密分享工具类，[示例参照](https://github.com/blockchain-jd-com/utils/blob/master/utils-crypto-adv/src/test/java/utils/crypto/adv/ShamirUtilsTest.java)
+
+### BulletProof
+
+移植[开源实现](https://github.com/bbuenz/BulletProofLib)提供[范围证明工具类](https://github.com/blockchain-jd-com/utils/blob/master/utils-crypto-adv/src/test/java/utils/crypto/adv/BulletProofUtilsTest.java)

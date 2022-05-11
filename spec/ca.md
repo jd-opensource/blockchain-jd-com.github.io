@@ -73,6 +73,18 @@ root-ca-path=/**/ledger1.crt,/**/ledger2.crt
 cons_parti.0.ca-path=/**/peer0.crt
 ```
 
+`CA`模式下，网关也需要配置在`ledger.init`（以四`PEER`，单网关为例）：
+```properties
+#参与方的个数，后续以 cons_parti.id 分别标识每一个参与方的配置；
+cons_parti.count=4
+
+
+#网关的名称；
+cons_parti.4.name=gw
+#第0个参与方的证书路径，identity-mode 为 CA 时，此选项不能为空
+cons_parti.4.ca-path=/**/peer0.crt
+```
+
 *`local.conf`*
 较`KEYPAIR`模式有如下修改：
 ```properties
