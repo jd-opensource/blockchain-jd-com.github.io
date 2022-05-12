@@ -1,10 +1,10 @@
-JD Chain统一了密码算法接口、公私钥编码规范，密码算法可插拔，本文档主要介绍已实现的传统、国密及高级密码算法及其应用。
+JD Chain统一了密码算法接口、公私钥编码规范，密码算法可插拔，本文档主要介绍已实现的经典、国密及高级密码算法及其应用。
 
-## 传统密码算法
+## 经典密码算法
 
 主要基于`bouncycastle`实现
 
-### 杂凑
+### 密码哈希函数
 
 #### RIPEMD160
 
@@ -39,7 +39,7 @@ byte[] plainBytes = function.decrypt(ciphertextBytes, symmetricKey);
 assertArrayEquals(data, plainBytes);
 ```
 
-### 非对称加密
+### 公钥密码
 
 #### ECDSA
 
@@ -65,7 +65,7 @@ assertTrue(function.verify(signatureDigest, pubKey, data));
 
 ## 国密算法
 
-### 杂凑
+### 密码哈希函数
 
 #### SM3
 
@@ -93,7 +93,7 @@ byte[] plainBytes = function.decrypt(ciphertextBytes, symmetricKey);
 assertArrayEquals(data, plainBytes);
 ```
 
-### 非对称加密
+### 公钥密码
 
 #### SM2
 
