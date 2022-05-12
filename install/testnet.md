@@ -112,4 +112,6 @@ startup.sh
 ```
 启动网关，启动成功后，访问`localhost:8080`查看区块链浏览器。
 
+> JD Chain 1.6.4开始，网关默认添加鉴权，用户名：`jdchain`，密码：`jdchain`。可通过修改网关配置`application-gw.properties`修改，修改后重启网关生效
+
 > 启动过程中，相关日志请查阅`peer*/bin/peer.out`，`peer*/logs/peer.log`，`gw/bin/gw.out`，`gw/logs/gw.log`
