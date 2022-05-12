@@ -8,8 +8,8 @@
 
 | 文件                                                                                                                    | 校验（SHA-256）  | 更新时间       | 文件大小    |
 |-----------------------------------------------------------------------------------------------------------------------| ----  |------------|---------|
-| [jdchain-peer-1.6.4.RELEASE](https://jdchain.s3.cn-north-1.jdcloud-oss.com/jdchain-peer-1.6.4.RELEASE.zip)       | 06b8a30120ad34b334096df95f076899c9c2c28a37fe3641c8d7f69611d56a67 | 2022/05/11 | 114.45M |
-| [jdchain-gateway-1.6.4.RELEASE](https://jdchain.s3.cn-north-1.jdcloud-oss.com/jdchain-gateway-1.6.4.RELEASE.zip) | 60de5cf0115171aba330199e27e8ad9210d95d7909f691fbfd837a787578f5ed | 2022/05/11 | 114.22M |
+| [jdchain-peer-1.6.4.RELEASE](https://jdchain.s3.cn-north-1.jdcloud-oss.com/jdchain-peer-1.6.4.RELEASE.zip)       | 5633efea42fc91bbc9c49fb60efa6e6c1d882c1010d50947d18d8ef6aff32832 | 2022/05/11 | 114.45M |
+| [jdchain-gateway-1.6.4.RELEASE](https://jdchain.s3.cn-north-1.jdcloud-oss.com/jdchain-gateway-1.6.4.RELEASE.zip) | 1f1b2ac30a6121408a1d38727272fa9e915495b84fcbcfbe3b933911ef5ef91a | 2022/05/11 | 114.22M |
 
 更多历史版本请编译源码获取
 
