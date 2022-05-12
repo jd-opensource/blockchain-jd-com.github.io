@@ -113,13 +113,14 @@ assertTrue(function.verify(signatureDigest, pubKey, data));
 
 ### Elgamal
 
-签名验签：
+加解密：
 ```java
 // 获取算法
 CryptoAlgorithm algorithm = Crypto.getAlgorithm("ELGAMAL");
 AsymmetricEncryptionFunction cryptoFunction = Crypto.getAsymmetricEncryptionFunction(algorithm);
 // 生成公私钥对
 AsymmetricKeypair keypair = cryptoFunction.generateKeypair();
+// 加解密
 byte[] data = "hello".getBytes(StandardCharsets.UTF_8);
 byte[] encrypt = cryptoFunction.encrypt(keypair.getPubKey(), data);
 byte[] decrypt = cryptoFunction.decrypt(keypair.getPrivKey(), encrypt);
