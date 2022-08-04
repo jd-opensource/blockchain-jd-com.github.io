@@ -1,10 +1,10 @@
 `JD Chain`网络搭建
 
-> **管理工具(`manager-startup.sh`)不再推荐使用，从1.6.3版本已完全移除管理工具相关代码，组网和节点管理请参照最新官方文档，使用命令行方式更安全更便捷！**
+`JD Chain`网络由共识节点（`PEER`）和网关节点（`GATEWAY`）组成。
+`PEER`节点主要负责共识、交易执行以及全量账本数据库的管理，`GATEWAY`节点负责数据接入、提供区块链数据接口、区块链浏览器等。
+多个`PEER`节点组成一个共识网络，可以管理多个账本。
+`GATEWAY`节点无状态，不存储区块链数据，`JD Chain SDK`使用`GATEWAY`接口服务与`JD Chain`网络进行数据交互。
 
-> **管理工具设计初衷仅做网络初始化使用，可执行节点启停操作，本身不涉及鉴权逻辑，使用旧版本管理工具的用户请停止管理工具服务进程或做好严格的外部访问控制。**
-
-> **不要对外暴露管理工具访问地址！！！**
 
 ## 安装包
 
@@ -33,6 +33,7 @@
 			- `mq.config` `MQ`共识初始化配置
 	- `log4j2-peer.xml` `log4j2`配置，可根据实际情况修改替换
 	- `application-peer.properties` `spring`配置
+	- `ledger-binding.conf`账本配置，账本初始化成功后会自动生成
 - `libs` 项目运行依赖第三方及非`system`依赖包
 - `system` 项目运行系统包
 - `runtime` 解压时不存在，存放运行时数据
@@ -112,6 +113,85 @@ startup.sh
 ```
 启动网关，启动成功后，访问`localhost:8080`查看区块链浏览器。
 
-> JD Chain 1.6.4开始，网关默认添加鉴权，用户名：`jdchain`，密码：`jdchain`。可通过修改网关配置`application-gw.properties`修改，修改后重启网关生效
+> JD Chain 1.6.4开始，网关默认添加鉴权，用户名：`jdchain`，密码：`jdchain`。可通过修改网关配置`gw/config/application-gw.properties`修改，修改后重启网关生效
+> JD Chain 1.6.4还加入了简单的接口鉴权配置，修改`gw/config/application-gw.properties`中`spring.security.ignored`可以配置开放的接口，修改后重启网关生效。`SDK`使用查询接口的过程中若出现`401`就是由此处权限配置引起。
 
 > 启动过程中，相关日志请查阅`peer*/bin/peer.out`，`peer*/logs/peer.log`，`gw/bin/gw.out`，`gw/logs/gw.log`
+
+至此`JD Chain`部署运行完成，可以参照数据上链部分说明执行数据上链操作。
+
+## 多账本
+
+一个`PEER`节点支持管理多个账本，多个账本间数据数据完全隔离，`PEER`节点启动时会根据`ledger-binding.conf`配置加载账本。
+
+在执行完上面的单账本初始化后，`ledger-binding.conf`中记录的是单个账本的配置信息，修改`peer*/config/init`目录下`bftsmart.config`、`ledger.init`、`local.conf`可再次执行新账本初始化。
+
+### 初始化配置
+
+> 所有`PEER`节点都需要修改
+> 以下配置修改仅展示需要修改的字段
+
+1. `bftsmart.config`
+
+修改共识网络`IP`和端口信息，**每个节点的每个账本运行时会占用两个共识相关端口**，如下面配置的节点`0`运行时会占用`10090`、`10092`端口用于共识相关服务。所以单机运行多节点在配置不同节点共识端口时要注意配置的端口冲突。
+
+```properties
+############################################
+###### #Consensus Participants ######
+############################################
+#Consensus Participant0
+system.server.0.network.host=127.0.0.1
+system.server.0.network.port=10090
+
+#Consensus Participant1
+system.server.1.network.host=127.0.0.1
+system.server.1.network.port=10092
+
+#Consensus Participant2
+system.server.2.network.host=127.0.0.1
+system.server.2.network.port=10094
+
+#Consensus Participant3
+system.server.3.network.host=127.0.0.1
+system.server.3.network.port=10096
+```
+
+> `bftsmart.config`所有节点配置保持一致
+
+2. `ledger.init`
+
+```properties
+#账本的种子；一段16进制字符，最长可以包含64个字符；可以用字符“-”分隔，以便更容易读取；
+ledger.seed=ce210778-71a3-4fa8-ab21-975d2bacb755cf2d39e1-5813-41cd-889c-38dc1ce7381e
+
+#账本的描述名称；此属性不参与共识，仅仅在当前参与方的本地节点用于描述用途；
+ledger.name=testnet2
+
+#声明的账本创建时间；格式为 “yyyy-MM-dd HH:mm:ss.SSSZ”，表示”年-月-日 时:分:秒:毫秒时区“；例如：“2019-08-01 14:26:58.069+0800”，其中，+0800 表示时区是东8区
+created-time=2022-08-05 09:38:55.649+0800
+```
+
+> `ledger.init`所有节点配置保持一致
+
+3. `local.conf`
+
+```properties
+ledger.db.uri=rocksdb:///home/imuge/jd/nodes/peer0/testnet-db2
+```
+
+> `local.conf`所有节点配置均不相同，配置的是不同节点参与方、区块链存储等信息
+> 新账本配置的存储一定不能与本地现有账本存储配置相同
+
+### 初始化
+
+再次分别进入四个`peer*/bin`目录下，修改脚本可执行权限，依次执行
+```bash
+ledger-init.sh
+```
+
+成功后查看`ledger-binding.conf`文件，会增加新创建的账本配置信息。
+
+默认情况下`PEER`和`GATEWAY`会自动感知到新账本，刷新区块链浏览器，右上角下拉列表可以切换不同账本。若没有自动感知到，需要重启所有节点和网关。
+
+> 组网出现最多的是端口冲突问题
+> 异常情况请查看`peer*/bin/peer.out`，`peer*/logs/peer.log`，`gw/bin/gw.out`，`gw/logs/gw.log`相关日志
