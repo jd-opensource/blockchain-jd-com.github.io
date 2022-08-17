@@ -438,6 +438,13 @@ function postEvent(eventContext, error) {
 >
 > 合约方法返回值限制：仅可使用 `String`、`int`、`long`、`boolean`、`byte[]`
 
+可以直接复制以上js源码，保存为`xxx.js`文件，使用命令行部署示例：
+```bash
+./jdchain-cli.sh tx contract-deploy --code xxx.js --lang JavaScript
+```
+
+SDK部署时使用带合约语言的`deploy()`重载方法，调用方式与Java合约无异。
+
 ##### Python
 
 **运行在GraalVM JDK下的JD Chain才可以调用Python语言合约**
@@ -931,7 +938,7 @@ curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 3. 创建合约项目
 
 ```bash
-git clone git@coding.jd.com:jdchain/jdchain-rust-contract.git
+git clone git@github.com:blockchain-jd-com/jdchain-rust-contract.git
 cd jdchain-rust-contract
 git checkout master
 ```
