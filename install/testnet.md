@@ -120,6 +120,8 @@ startup.sh
 
 至此`JD Chain`部署运行完成，可以参照数据上链部分说明执行数据上链操作。
 
+** 以上步骤的视频参考**：[JD Chain 安装部署](https://jdchain.s3.cn-north-1.jdcloud-oss.com/videos/install.mp4)
+
 ## 多账本
 
 一个`PEER`节点支持管理多个账本，多个账本间数据数据完全隔离，`PEER`节点启动时会根据`ledger-binding.conf`配置加载账本。
