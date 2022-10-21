@@ -4,9 +4,12 @@ JD Chain抽象了共识协议接口，共识算法可插拔。
 
 ### MQ
 
-已实现基于`RabbitMQ`方案
+已实现基于`RabbitMQ`、`ActiveMQ Classic`（`JD Chain` `1.6.5`版本新增）方案
+> MQ实现在`1.6.4`和`1.6.5`中实现有变化，MQ服务地址URI不同，请参照对应版本文档操作示例
 
-初始化使用`mq.config`，配置`RabbitMQ`服务及交易、区块等消息队列。
+`RabbitMQ`实现仅支持第一个节点提议区块，`ActiveMQ`支持所有参与节点提议区块。
+
+初始化使用`mq.config`，配置`MQ`服务及交易、区块等消息队列。
 
 `ledger.init`中设置：
 ```bash

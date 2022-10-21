@@ -1,13 +1,9 @@
-> **管理工具(`manager-startup.sh`)不再推荐使用，从1.6.3版本已完全移除管理工具相关代码，组网和节点管理请参照最新官方文档，使用命令行方式更安全更便捷！**
-
-> **管理工具设计初衷仅做网络初始化使用，可执行节点启停操作，本身不涉及鉴权逻辑，使用旧版本管理工具的用户请停止管理工具服务进程或做好严格的外部访问控制。**
-
-> **不要对外暴露管理工具访问地址！！！**
-
 安装包下载，仅提供最近版本下载：
 
 | 文件                                                                                                                    | 校验（SHA-256）  | 更新时间       | 文件大小    |
 |-----------------------------------------------------------------------------------------------------------------------| ----  |------------|---------|
+| [jdchain-peer-1.6.5.RELEASE](https://jdchain.s3.cn-north-1.jdcloud-oss.com/jdchain-peer-1.6.5.RELEASE.zip)       | f44f732c343aaf8003fb1711504917f3b38d8bd897b2fe846ff6d5ffa2e1ddf1 | 2022/10/21 | 115.56M |
+| [jdchain-gateway-1.6.5.RELEASE](https://jdchain.s3.cn-north-1.jdcloud-oss.com/jdchain-gateway-1.6.5.RELEASE.zip) | de069bbed39f0b7bbd7617b5618c2860a8adb55ac3e19a511b05a5fce4497103 | 2022/10/21 | 114.78M |
 | [jdchain-peer-1.6.4.RELEASE](https://jdchain.s3.cn-north-1.jdcloud-oss.com/jdchain-peer-1.6.4.RELEASE.zip)       | 299c5d12cf1101dcdb0e056069ab94413582f904464df425c0c2cb70ac75c018 | 2022/05/11 | 114.45M |
 | [jdchain-gateway-1.6.4.RELEASE](https://jdchain.s3.cn-north-1.jdcloud-oss.com/jdchain-gateway-1.6.4.RELEASE.zip) | 100a1fd6c63cb14a74bd7bef2b08652e6b04f3a17e6cd08dd3b10b2ff4dde02e | 2022/05/11 | 114.22M |
 

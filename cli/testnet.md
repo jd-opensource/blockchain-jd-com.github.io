@@ -103,14 +103,14 @@ Usage: jdchain-cli testnet config [-hV] [--pretty] [-a=<algorithm>]
 1. 初始化使用`BFT-SMaRt`共识协议，单机四节点单网关网络
 
 ```bash
-./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.4.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.4.RELEASE.zip --consensus BFTSMART --peer-size 4 --init-hosts 127.0.0.1 --peer-hosts 127.0.0.1 --peer-consensus-ports 10080,10082,10084,10086 --peer-manage-ports 7080,7081,7082,7083 --init-ports 8800,8810,8820,8830 --gw-port 8080 --output /home/imuge/jd/nodes/
+./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.5.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.5.RELEASE.zip --consensus BFTSMART --peer-size 4 --init-hosts 127.0.0.1 --peer-hosts 127.0.0.1 --peer-consensus-ports 10080,10082,10084,10086 --peer-manage-ports 7080,7081,7082,7083 --init-ports 8800,8810,8820,8830 --gw-port 8080 --output /home/imuge/jd/nodes/
 ```
 
 
 2. 初始化使用`BFT-SMaRt`共识协议，单机初始化、多机运行四节点单网关网络：
 
 ```bash
-./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.4.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.4.RELEASE.zip --consensus BFTSMART --peer-size 4 --init-hosts 127.0.0.1 --peer-hosts --init-ports 8800,8810,8820,8830 192.168.101.10,192.168.101.11,192.168.101.12,192.168.101.13 --peer-consensus-ports 10080 --peer-manage-ports 7080 --gw-port 8080 --output /home/imuge/jd/nodes/
+./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.5.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.5.RELEASE.zip --consensus BFTSMART --peer-size 4 --init-hosts 127.0.0.1 --peer-hosts --init-ports 8800,8810,8820,8830 192.168.101.10,192.168.101.11,192.168.101.12,192.168.101.13 --peer-consensus-ports 10080 --peer-manage-ports 7080 --gw-port 8080 --output /home/imuge/jd/nodes/
 ```
 
 > 使用本机执行`ledger-init.sh`，使用`不同地址端口`运行`peer-startup.sh`初始化启动网络，在执行`peer-startup.sh`前将对应的`peer*`文件复制到对应机器相同目录下，使用不同目录时请修改`ledger-binding.conf`中涉及到目录的配置。
@@ -118,7 +118,7 @@ Usage: jdchain-cli testnet config [-hV] [--pretty] [-a=<algorithm>]
 3. 初始化使用`BFT-SMaRt`共识协议，多机初始化、多机运行四节点单网关网络：
 
 ```bash
-./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.4.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.4.RELEASE.zip --consensus BFTSMART --peer-size 4 --init-hosts 192.168.101.10,192.168.101.11,192.168.101.12,192.168.101.13 --init-ports 8800 --peer-hosts 192.168.101.10,192.168.101.11,192.168.101.12,192.168.101.13 --peer-consensus-ports 10080 --peer-manage-ports 7080 --gw-port 8080 --output /home/imuge/jd/nodes/
+./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.5.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.5.RELEASE.zip --consensus BFTSMART --peer-size 4 --init-hosts 192.168.101.10,192.168.101.11,192.168.101.12,192.168.101.13 --init-ports 8800 --peer-hosts 192.168.101.10,192.168.101.11,192.168.101.12,192.168.101.13 --peer-consensus-ports 10080 --peer-manage-ports 7080 --gw-port 8080 --output /home/imuge/jd/nodes/
 ```
 
 > 使用多机执行`ledger-init.sh`，在执行`ledger-init.sh`前将`peer*`文件复制到对应机器相同目录下，使用不同目录时请修改`init`下`bftsmart.config`、`ledger.init`、`local.conf`中涉及到目录的配置。
@@ -128,14 +128,21 @@ Usage: jdchain-cli testnet config [-hV] [--pretty] [-a=<algorithm>]
 
 初始化使用`Raft`共识协议，单机单节点单网关网络
 ```bash
-./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.4.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.4.RELEASE.zip --consensus RAFT --peer-size 1 --init-hosts 127.0.0.1 --peer-consensus-ports 10080 --peer-manage-ports 7080 --init-ports 8800 --gw-port 8080 --output /home/imuge/jd/nodes/
+./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.5.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.5.RELEASE.zip --consensus RAFT --peer-size 1 --init-hosts 127.0.0.1 --peer-consensus-ports 10080 --peer-manage-ports 7080 --init-ports 8800 --gw-port 8080 --output /home/imuge/jd/nodes/
 ```
 
 ### MQ
 
 初始化使用`RabbitMQ`共识协议，单机单节点单网关网络
 ```bash
-./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.4.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.4.RELEASE.zip --rabbit 127.0.0.1:5672 --consensus MQ --peer-size 1 --init-hosts 127.0.0.1 --peer-consensus-ports 10080 --peer-manage-ports 7080 --init-ports 8800 --gw-port 8080 --output /home/imuge/jd/nodes/
+./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.5.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.5.RELEASE.zip --mq rabbitmq://amqp://127.0.0.1:5672 --consensus MQ --peer-size 1 --init-hosts 127.0.0.1 --peer-consensus-ports 10080 --peer-manage-ports 7080 --init-ports 8800 --gw-port 8080 --output /home/imuge/jd/nodes/
 ```
 
-> 执行`peer-startup.sh`前，请确保`rabbit`配置的`RabbitMQ`服务可用
+> 执行`peer-startup.sh`前，请确保`mq`配置的`RabbitMQ`服务可用
+
+初始化使用`ActiveMQ`共识协议，单机单节点单网关网络
+```bash
+./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.5.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.5.RELEASE.zip --mq "activemq://failover:(tcp://127.0.0.1:61616)?initialReconnectDelay=1000&maxReconnectDelay=30000" --consensus MQ --peer-size 1 --init-hosts 127.0.0.1 --peer-consensus-ports 10080 --peer-manage-ports 7080 --init-ports 8800 --gw-port 8080 --output /home/imuge/jd/nodes/
+```
+
+> 执行`peer-startup.sh`前，请确保`mq`配置的`ActiveMQ`服务可用

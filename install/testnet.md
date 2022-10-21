@@ -5,6 +5,7 @@
 多个`PEER`节点组成一个共识网络，可以管理多个账本。
 `GATEWAY`节点无状态，不存储区块链数据，`JD Chain SDK`使用`GATEWAY`接口服务与`JD Chain`网络进行数据交互。
 
+**安装部署视频参考**：[JD Chain 安装部署](https://jdchain.s3.cn-north-1.jdcloud-oss.com/videos/install.mp4)
 
 ## 安装包
 
@@ -63,7 +64,7 @@
 
 如创建四节点，单网关基于`BFT-SMaRt`共识、`KEYPAIR`身份认证模式的单机运行网络：
 ```bash
-./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.4.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.4.RELEASE.zip --consensus BFTSMART --peer-size 4 --init-hosts 127.0.0.1 --peer-hosts 127.0.0.1 --peer-consensus-ports 10080,10082,10084,10086 --peer-manage-ports 7080,7081,7082,7083 --init-ports 8800,8810,8820,8830 --gw-port 8080 --output /home/imuge/jd/nodes/
+./jdchain-cli.sh testnet config --algorithm ED25519 --ledger-name testnet --password 123456 --peer-zip ../../jdchain-peer-1.6.5.RELEASE.zip --gw-zip ../../jdchain-gateway-1.6.5.RELEASE.zip --consensus BFTSMART --peer-size 4 --init-hosts 127.0.0.1 --peer-hosts 127.0.0.1 --peer-consensus-ports 10080,10082,10084,10086 --peer-manage-ports 7080,7081,7082,7083 --init-ports 8800,8810,8820,8830 --gw-port 8080 --output /home/imuge/jd/nodes/
 ```
 > 各参数意义参照[TestNet](cli/testnet)详细描述
 
@@ -119,8 +120,6 @@ startup.sh
 > 启动过程中，相关日志请查阅`peer*/bin/peer.out`，`peer*/logs/peer.log`，`gw/bin/gw.out`，`gw/logs/gw.log`
 
 至此`JD Chain`部署运行完成，可以参照数据上链部分说明执行数据上链操作。
-
-** 以上步骤的视频参考**：[JD Chain 安装部署](https://jdchain.s3.cn-north-1.jdcloud-oss.com/videos/install.mp4)
 
 ## 多账本
 
